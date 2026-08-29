@@ -3,167 +3,632 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Khodam Online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0d1117">
+    <meta name="description" content="Aplikasi Cek Khodam Online versi Mobile & Web - Terawang khodam pendampingmu sekarang!">
+    <title>🔮 Cek Khodam Online - Versi Mobile</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --card-bg: rgba(18, 26, 43, 0.85);
+            --card-border: rgba(99, 102, 241, 0.25);
+            --accent-cyan: #00f2fe;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(15, 23, 42, 0.7);
+            --input-border: rgba(148, 163, 184, 0.2);
+            --btn-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.08) 0%, transparent 60%);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Background elements */
+        .ambient-blob {
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: floatBlob 8s ease-in-out infinite alternate;
+        }
+
+        .blob-1 {
+            top: 5%;
+            left: -50px;
+            background: #6366f1;
+        }
+
+        .blob-2 {
+            bottom: 5%;
+            right: -50px;
+            background: #ec4899;
+            animation-delay: -4s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(30px) scale(1.15); }
+        }
+
+        /* Mobile Container Box */
+        .app-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 28px 22px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        /* Header Style */
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .mystic-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .orb-icon {
+            font-size: 2.8rem;
+            display: inline-block;
+            margin-bottom: 4px;
+            filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.6));
+            animation: pulseOrb 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseOrb {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(6deg); }
+        }
+
+        h1 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 30%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.45;
+            padding: 0 10px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            font-size: 1.1rem;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            height: 50px;
+            padding: 12px 14px 12px 44px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.25s ease;
+            -webkit-appearance: none;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        input:focus {
+            border-color: #818cf8;
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Action Button */
+        .btn-submit {
+            width: 100%;
+            height: 52px;
+            margin-top: 8px;
+            background: var(--btn-gradient);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.5);
+            transition: all 0.25s ease;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.97);
+            box-shadow: 0 4px 15px -3px rgba(168, 85, 247, 0.6);
+        }
+
+        /* Divination Loading state */
+        .loading-box {
+            display: none;
+            text-align: center;
+            padding: 24px 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .spinner-ring {
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 16px;
+            border: 4px solid rgba(168, 85, 247, 0.2);
+            border-top: 4px solid #00f2fe;
+            border-right: 4px solid #ec4899;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #c4b5fd;
+            font-size: 0.95rem;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Result Section */
+        .result-container {
+            display: none;
+            margin-top: 22px;
+            animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popUp {
+            0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .result-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+            border: 1.5px solid rgba(168, 85, 247, 0.4);
+            border-radius: 20px;
+            padding: 20px 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+
+        .result-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--btn-gradient);
+        }
+
+        .result-tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.12);
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .khodam-name {
+            font-size: 1.35rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 40%, #e0c3fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .khodam-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.4;
+            margin-bottom: 16px;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 10px 12px;
+            border-radius: 12px;
+        }
+
+        .khodam-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 8px;
+            font-size: 0.75rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .stat-val {
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        /* Result Actions */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            flex: 1;
+            height: 44px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-wa {
+            background: #25D366;
+            color: #ffffff;
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+        }
+
+        .btn-action:active {
+            transform: scale(0.96);
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        /* Small screens adjustments */
+        @media (max-width: 380px) {
+            .app-card {
+                padding: 22px 16px;
+                border-radius: 22px;
+            }
+            h1 {
+                font-size: 1.45rem;
+            }
+            .khodam-name {
+                font-size: 1.2rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>🔮 Cek Khodam Online</h1>
-        <p>Masukkan nama lengkap dan tanggal lahir Anda untuk mengetahui khodam pendamping:</p>
+    <!-- Ambient glowing effects -->
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+
+    <div class="app-card">
+        <!-- Header -->
+        <div class="header">
+            <div class="orb-icon">🔮</div>
+            <div>
+                <span class="mystic-badge">⚡ Khodam Divination</span>
+            </div>
+            <h1>Cek Khodam Online</h1>
+            <p class="subtitle">Ketahui khodam pendamping & aura gaib berdasarkan namamu!</p>
+        </div>
+
+        <!-- Main Form -->
         <form id="khodamForm">
-            <label for="name">Nama Lengkap:</label>
-            <input type="text" id="name" name="name" placeholder="Contoh: Budi Santoso" required>
+            <div class="form-group">
+                <label for="name">
+                    <span>👤</span> Nama Lengkap
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">✨</span>
+                    <input type="text" id="name" name="name" placeholder="Ketik nama Anda di sini..." autocomplete="off" required>
+                </div>
+            </div>
 
-            <label for="dob">Tanggal Lahir:</label>
-            <input type="date" id="dob" name="dob" required>
+            <div class="form-group">
+                <label for="dob">
+                    <span>📅</span> Tanggal Lahir (Opsional)
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🌙</span>
+                    <input type="date" id="dob" name="dob">
+                </div>
+            </div>
 
-            <button type="submit">✨ Cek Khodam Sekarang</button>
+            <button type="submit" id="btnSubmit" class="btn-submit">
+                <span>✨ Terawang Khodam</span>
+            </button>
         </form>
-        <div id="result"></div>
+
+        <!-- Loading Divination -->
+        <div id="loadingBox" class="loading-box">
+            <div class="spinner-ring"></div>
+            <div id="loadingText" class="loading-text">🔮 Menerawang aura astral...</div>
+        </div>
+
+        <!-- Result Container -->
+        <div id="resultContainer" class="result-container">
+            <div class="result-card">
+                <span class="result-tag" id="auraRank">⭐ MYTHIC TIER</span>
+                <h2 class="khodam-name" id="khodamTitle">-</h2>
+                <div class="khodam-desc" id="khodamStory">-</div>
+
+                <div class="khodam-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Tingkat Kesaktian</span>
+                        <span class="stat-val" id="statPower">99,999+</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Sifat Khodam</span>
+                        <span class="stat-val" id="statTrait">Agresif & Kocak</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" id="btnShareWA" class="btn-action btn-wa">
+                        <span>📲 Share WA</span>
+                    </button>
+                    <button type="button" id="btnReset" class="btn-action btn-reset">
+                        <span>🔄 Cek Lagi</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>✨ Hanya untuk hiburan semata • Dibuat dengan ❤️</span>
+        </div>
     </div>
-</body>
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
 
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #09cbf7 0%, #0056b3 100%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        padding: 20px;
-    }
-    
-    .container {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 16px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        max-width: 420px;
-        width: 100%;
-    }
-    
-    h1 {
-        color: #1e293b;
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-    }
-
-    p {
-        color: #64748b;
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-        line-height: 1.4;
-    }
-    
-    form {
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-    }
-    
-    label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #334155;
-        margin-bottom: 6px;
-    }
-    
-    input {
-        padding: 12px;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 8px;
-        width: 100%;
-        margin-bottom: 15px;
-        font-size: 0.95rem;
-        transition: border-color 0.3s;
-    }
-
-    input:focus {
-        border-color: #007BFF;
-        outline: none;
-    }
-    
-    button {
-        margin-top: 10px;
-        padding: 12px 20px;
-        background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%);
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: bold;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
-    }
-    
-    #result {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        color: #166534;
-        font-size: 1.05rem;
-        font-weight: bold;
-        display: none;
-        animation: fadeIn 0.4s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
-<script>
-    document.getElementById('khodamForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const name = document.getElementById('name').value;
-        const dob = document.getElementById('dob').value;
-
-        const resultEl = document.getElementById('result');
-        resultEl.style.display = 'block';
-        resultEl.innerText = '🔮 Sedang menerawang khodam...';
-
-        setTimeout(() => {
-            const result = cekKhodam(name, dob);
-            resultEl.innerHTML = `✨ Khodam Anda adalah:<br><span style="font-size: 1.25rem; color: #0284c7;">${result}</span>`;
-        }, 600);
-    });
-
-    function cekKhodam(name, dob) {
-        const khodamList = [
-            'Khodam Banaspati Api',
-            'Khodam Syech Sakti',
-            'Khodam Naga Emas',
-            'Khodam Macan Putih',
-            'Khodam Bakso Granat',
-            'Khodam Naga Hitam',
-            'Khodam Nenek Kebayan',
-            'Khodam Iwak Asin',
-            'Khodam Susu Beruang',
-            'Khodam Pascol Barbar',
-            'Khodam Mobil Jenazah',
-            'Khodam Kucing Oren',
-            'Khodam Elang Perkasa',
-            'Khodam Rawa Rontek'
+    <script>
+        const khodamDatabase = [
+            { name: "Khodam Banaspati Api 🔥", rank: "🔥 S-TIER", trait: "Membara & Agresif", story: "Mampu membakar semangat juang dan menjaga tuannya saat lapar melanda di malam hari." },
+            { name: "Khodam Macan Putih 🐯", rank: "👑 MYTHIC", trait: "Wibawa & Karismatik", story: "Memberikan aura kewibawaan tingkat tinggi, disegani tetangga dan disukai kucing kampung." },
+            { name: "Khodam Naga Emas 🐉", rank: "✨ GOD-TIER", trait: "Rezeki & Kemakmuran", story: "Penjaga pintu keberuntungan, memancarkan aura magnet transferan dan diskon belanja." },
+            { name: "Khodam Bakso Granat 💣", rank: "🍜 LEGENDARY", trait: "Pedas & Mengenyangkan", story: "Khodam berkekuatan pedas level 10, membuat lawan auto keringat dingin." },
+            { name: "Khodam Susu Beruang 🐻", rank: "🛡️ HEALER", trait: "Penetral Masalah", story: "Memiliki kekebalan tubuh luar biasa, mampu memulihkan stamina begadang Anda." },
+            { name: "Khodam Kucing Oren Barbar 🐱", rank: "💥 CHAOTIC", trait: "Pemberani & Barbar", story: "Tidak kenal rasa takut, siap mengacak-acak musuh tanpa memandang bulu." },
+            { name: "Khodam Pascol Barbar 🎮", rank: "⚡ HYPER", trait: "Emosi & Teriakan Sakti", story: "Kekuatan teriakan ultrasonik yang meruntuhkan mental lawan dalam sekali gaspol." },
+            { name: "Khodam Iwak Asin Crispy 🐟", rank: "⭐ UNIQUE", trait: "Gurih & Pantang Mundur", story: "Aroma harum pertahanan gaib yang membuat lawan langsung lapar dan lupa bertarung." },
+            { name: "Khodam Mobil Jenazah 🚑", rank: "💀 ANCIENT", trait: "Sirine Peneror", story: "Aura misterius yang membuat musuh auto minggir dan putar balik." },
+            { name: "Khodam Nenek Kebayan 🧙‍♀️", rank: "🔮 SUPREME", trait: "Ramalan Jitu", story: "Pakar strategi masa depan dan pemberi firasat jitu nomor antrean." },
+            { name: "Khodam Elang Perkasa 🦅", rank: "👁️ VISIONARY", trait: "Mata Tajam", story: "Mampu memantau peluang cuan dan gebetan dari kejauhan." },
+            { name: "Khodam Rawa Rontek 🌿", rank: "🛡️ IMMORTAL", trait: "Anti-Kalah", story: "Kekuatan pemulihan instan setelah menghadapi revisi berkali-kali." },
+            { name: "Khodam Sendal Jepit Swallow 🩴", rank: "🌟 RARE", trait: "Anti-Maling", story: "Sangat fleksibel, tahan air, dan memiliki akurasi lemparan 99.9%." },
+            { name: "Khodam Martabak Manis Keju 🧀", rank: "🍰 SWEET-TIER", trait: "Peleleh Hati", story: "Senjata ampuh untuk meluluhkan hati gebetan atau meredakan amarah pasangan." }
         ];
-        const index = (name.length + new Date(dob).getDate()) % khodamList.length;
-        return khodamList[index];
-    }
-</script>
+
+        const form = document.getElementById('khodamForm');
+        const loadingBox = document.getElementById('loadingBox');
+        const loadingText = document.getElementById('loadingText');
+        const resultContainer = document.getElementById('resultContainer');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const btnReset = document.getElementById('btnReset');
+        const btnShareWA = document.getElementById('btnShareWA');
+
+        let currentResult = null;
+
+        // Vibrasi jika didukung di HP
+        function triggerHaptic() {
+            if (navigator.vibrate) {
+                navigator.vibrate([40, 30, 60]);
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const dob = document.getElementById('dob').value;
+
+            if (!name) return;
+
+            // Sembunyikan form sementara & tampilkan animasi loading
+            form.style.display = 'none';
+            resultContainer.style.display = 'none';
+            loadingBox.style.display = 'block';
+
+            const loadingMessages = [
+                '🔮 Menerawang aura astral...',
+                '🌀 Menghubungi alam dimensi gaib...',
+                '⚡ Menghitung getaran cakra...',
+                '📜 Menemukan khodam pendamping...'
+            ];
+
+            let step = 0;
+            const interval = setInterval(() => {
+                step++;
+                if (step < loadingMessages.length) {
+                    loadingText.innerText = loadingMessages[step];
+                }
+            }, 350);
+
+            setTimeout(() => {
+                clearInterval(interval);
+                loadingBox.style.display = 'none';
+
+                // Hitung Khodam
+                const result = calculateKhodam(name, dob);
+                currentResult = { name, ...result };
+                displayResult(currentResult);
+                triggerHaptic();
+            }, 1400);
+        });
+
+        function calculateKhodam(name, dob) {
+            let hash = 0;
+            const cleanStr = name.toLowerCase().replace(/\s+/g, '');
+            for (let i = 0; i < cleanStr.length; i++) {
+                hash += cleanStr.charCodeAt(i) * (i + 1);
+            }
+            if (dob) {
+                const d = new Date(dob);
+                hash += (d.getDate() || 0) * 7 + (d.getMonth() || 0) * 13;
+            }
+
+            const index = Math.abs(hash) % khodamDatabase.length;
+            const powerNumber = (Math.abs(hash * 37) % 90000) + 10000;
+            
+            return {
+                data: khodamDatabase[index],
+                power: powerNumber.toLocaleString('id-ID')
+            };
+        }
+
+        function displayResult(res) {
+            document.getElementById('auraRank').innerText = res.data.rank;
+            document.getElementById('khodamTitle').innerText = res.data.name;
+            document.getElementById('khodamStory').innerText = `"${res.data.story}"`;
+            document.getElementById('statPower').innerText = res.power + ' CP';
+            document.getElementById('statTrait').innerText = res.data.trait;
+
+            resultContainer.style.display = 'block';
+        }
+
+        btnReset.addEventListener('click', function() {
+            resultContainer.style.display = 'none';
+            form.style.display = 'block';
+            document.getElementById('name').value = '';
+            document.getElementById('dob').value = '';
+            document.getElementById('name').focus();
+        });
+
+        btnShareWA.addEventListener('click', function() {
+            if (!currentResult) return;
+            const text = `🔮 Hasil Cek Khodam untuk *${currentResult.name}*:\n` +
+                         `✨ Khodam: *${currentResult.data.name}*\n` +
+                         `⚡ Rank: ${currentResult.data.rank}\n` +
+                         `💥 Kekuatan: ${currentResult.power} CP\n` +
+                         `📜 Sifat: ${currentResult.data.trait}\n\n` +
+                         `Cek khodam kamu juga sekarang! 😂🔮`;
+            
+            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+            window.open(waUrl, '_blank');
+        });
+    </script>
+</body>
 
 </html>
