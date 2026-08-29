@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Khodam</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cek Khodam</h1>
+        <p>Masukkan nama lengkap dan tanggal lahir Anda untuk cek khodam:</p>
+        <form id="khodamForm">
+            <label for="name">Nama Lengkap:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="dob">Tanggal Lahir:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <button type="submit">Cek Khodam</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #09cbf7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    h1 {
+        color: #333;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    label {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        max-width: 300px;
+        box-sizing: border-box;
+    }
+    
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+    }
+    
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+<script>
+    document.getElementById('khodamForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Ambil nilai dari input
+        const name = document.getElementById('name').value;
+        const dob = document.getElementById('dob').value;
+
+        // Panggil fungsi cek khodam (misalnya, cek berdasarkan nama dan tanggal lahir)
+        const result = cekKhodam(name, dob);
+
+        // Tampilkan hasil
+        document.getElementById('result').innerText = `Khodam Anda adalah: ${result}`;
+    });
+
+    function cekKhodam(name, dob) {
+        // Logika sederhana untuk menentukan khodam
+        // Misalnya, kita hanya mengembalikan nama yang diacak dari array khodam
+        const khodamList = ['Khodam Banaspati', 'Khodam syech', 'Khodam Naga', 'Khodam Macan putih', 'khodam Bakso Granat', 'khodam Naga hitam', 'Khodam Nenek kebayan', 'Khodam Iwak asen', 'khodam susu beruang','pascol','mobil jenazah'];
+        const index = (name.length + new Date(dob).getDate()) % khodamList.length;
+        return khodamList[index];
+    }
+</script>
+
+</html>
